@@ -248,6 +248,14 @@ void get_root(int fd)
 void get_d20(int fd)
 {
   // !!!! IMPLEMENT ME
+  char response_body[1024];
+
+  int randomNumber;
+  randomNumber = rand() % 20 + 1;
+
+  sprintf(response_body, "%d", randomNumber);
+
+  send_response(fd, "HTTP/1.1 200 OK", "text/plain", response_body);
 }
 
 /**
@@ -315,6 +323,15 @@ void handle_http_request(int fd)
   {
     get_root(fd);
   }
+  else if (strcmp("/d20", request_path) == 0)
+  {
+    get_d20(fd);
+  }
+  else if (strcmp("/date", request_path) == 0)
+  {
+    get_date(fd);
+  }
+
   else
   {
     resp_404(fd, request_path);
